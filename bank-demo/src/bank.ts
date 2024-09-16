@@ -68,6 +68,20 @@ export class Bank {
         }
         account.balance -= amount;
     }
+    /**
+     * Returns the balance of the account with the given account number.
+     * @param accountNumber account number of the account to check balance of
+     * @throws Error if the account does not exist
+     * @returns balance of the account
+     */
+    checkBalance(accountNumber: number): number {
+        const account = this.accounts.get(accountNumber);
+        if (!account) {
+            throw new Error('Account does not exist');
+        }
+        return account.balance;
+    }
+
 
 }
 
