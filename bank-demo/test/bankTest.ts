@@ -116,6 +116,63 @@ function testDeposit() {
 
 }
 
+/**
+ * Test for withdrawing money from accounts.
+ */
+function testWithdraw(){
+    
+        const bank = new Bank();
+    
+        const account1 = bank.createAccount("Alice", 1);
+    
+        bank.deposit(1, 100);
+    
+        // testing successful withdraw
+        bank.withdraw(1, 50);
+        
+        const balance = account1.balance;
+        if (balance !== 50) {
+            throw new Error("Withdraw not successful");
+        }
+    
+        bank.withdraw(1, 50);
+    
+        if (account1.balance !== 0) {
+            throw new Error("Withdraw not successful");
+        }
+        // testing withdraw of more than balance
+        try{
+        bank.withdraw(1, 100);
+        throw new Error("Withdraw of more than balance did not throw an error");
+    } catch (e) {
+        }
+        bank.deposit(1, 100);
+        // testing withdraw of invalid amount
+        try {
+            bank.withdraw(1, -10);
+            throw new Error("Withdraw of negative amount did not throw an error");
+        } catch (e) {
+        }
+    
+        try {
+            bank.withdraw(1, 0);
+            throw new Error("Withdraw of 0 did not throw an error");
+        } catch (e) {
+    
+        }
+    
+        // testing withdraw from invalid account
+        try {
+            bank.withdraw(2, 10);
+            throw new Error("Withdraw from non-existent account did not throw an error");
+        } catch (e) {
+        }
+    
+        console.log("Withdraw test passed");
+
+}
+
 
 testAccountCreation();
 testDeposit();
+testWithdraw();

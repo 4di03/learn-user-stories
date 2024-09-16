@@ -6,7 +6,7 @@ export interface BankAccount {
 }
 
 /**
- * Bank class which manages all bank accounts and balance of total withdrawable cash.
+ * Bank class which manages all bank accounts.
  */
 export class Bank {
     private accounts: Map<number, BankAccount> = new Map<number, BankAccount>(); // map of accountNumbers to bank accounts
@@ -33,7 +33,7 @@ export class Bank {
     }
 
     /**
-     * Deposit the given amount of money into the account with the given account number. This updates the account balance and the bank's total cash balance.
+     * Deposit the given amount of money into the account with the given account number. This updates the account balance.
      * @param accountNumber account number of the account to deposit money into
      * @param amount amount of money to deposit. Must be positive.
      * @throws Error if the account does not exist or if the amount is not positive.
@@ -48,7 +48,26 @@ export class Bank {
         }
         account.balance += amount;
     }
-
+    
+    /**
+     * Withdraws the given amount from the account with the given account number. This updates the account balance.
+     * @param accountNumber account number of the account to withdraw money from
+     * @param amount a,ount of money to withdraw. Must be positive.
+     * @throws Error if the account does not exist, if the amount is not positive, or if the account does not have enough balance.
+     */
+    withdraw(accountNumber: number, amount: number): void {
+        if (amount <= 0) {
+            throw new Error('Amount must be positive');
+        }
+        const account = this.accounts.get(accountNumber);
+        if (!account) {
+            throw new Error('Account does not exist');
+        }
+        if (account.balance < amount) {
+            throw new Error('Insufficient balance');
+        }
+        account.balance -= amount;
+    }
 
 }
 
