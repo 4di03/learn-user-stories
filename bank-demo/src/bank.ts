@@ -1,5 +1,5 @@
 // Interface for a bank account
-interface BankAccount {
+export interface BankAccount {
     name: string;
     balance: number;
     accountNumber: number;
@@ -8,14 +8,9 @@ interface BankAccount {
 /**
  * Bank class which manages all bank accounts and balance of total withdrawable cash.
  */
-export default class Bank {
+export class Bank {
     private accounts: Map<number, BankAccount> = new Map<number, BankAccount>(); // map of accountNumbers to bank accounts
-    private bankBalance: number = 0; // amount of cash the bank has on-hand
 
-    // constructer for Bank with optional initial bank balance
-    constructor(bankBalance: number = 0) {
-        this.bankBalance = bankBalance;
-    }
     /**
      * Create a new bank account with the given name and account number and a balance of 0.
      * @param name name of the account holder
@@ -37,5 +32,23 @@ export default class Bank {
         return bankAccount;
     }
 
+    /**
+     * Deposit the given amount of money into the account with the given account number. This updates the account balance and the bank's total cash balance.
+     * @param accountNumber account number of the account to deposit money into
+     * @param amount amount of money to deposit. Must be positive.
+     * @throws Error if the account does not exist or if the amount is not positive.
+     */
+    deposit(accountNumber: number, amount: number): void {
+        if (amount <= 0) {
+            throw new Error('Amount must be positive');
+        }
+        const account = this.accounts.get(accountNumber);
+        if (!account) {
+            throw new Error('Account does not exist');
+        }
+        account.balance += amount;
+    }
+
 
 }
+
